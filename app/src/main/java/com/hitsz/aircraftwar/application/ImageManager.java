@@ -5,31 +5,72 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import com.hitsz.aircraftwar.R;
+import com.hitsz.aircraftwar.aircraft.BossEnemy;
+import com.hitsz.aircraftwar.aircraft.EliteEnemy;
+import com.hitsz.aircraftwar.aircraft.HeroAircraft;
+import com.hitsz.aircraftwar.aircraft.MobEnemy;
+import com.hitsz.aircraftwar.bullet.EnemyBullet;
+import com.hitsz.aircraftwar.bullet.HeroBullet;
+import com.hitsz.aircraftwar.items.ItemBlood;
+import com.hitsz.aircraftwar.items.ItemBomb;
+import com.hitsz.aircraftwar.items.ItemFire;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class ImageManager {
-    private static final Map<String, Bitmap> CLASS_IMAGE_MAP = new HashMap<>();
-    private static Bitmap HERO = null;
-    private static Bitmap MOB = null;
-    private static Bitmap ELITE = null;
-    private static Bitmap BOSS = null;
+
+    private static final Map<String, Bitmap> CLASSNAME_IMAGE_MAP = new HashMap<>();
+
+    public static Bitmap BACKGROUND_IMAGE_EASY;
+    public static Bitmap BACKGROUND_IMAGE_NORMAL;
+    public static Bitmap BACKGROUND_IMAGE_HARD;
+
+    public static Bitmap HERO_IMAGE;
+    public static Bitmap HERO_BULLET_IMAGE;
+
+    public static Bitmap ENEMY_BULLET_IMAGE;
+    public static Bitmap MOB_ENEMY_IMAGE;
+    public static Bitmap ELITE_ENEMY_IMAGE;
+    public static Bitmap BOSS_ENEMY_IMAGE;
+
+    public static Bitmap PROP_BLOOD_IMAGE;
+    public static Bitmap PROP_BOMB_IMAGE;
+    public static Bitmap PROP_FIRE_IMAGE;
 
     public static void initial(Resources resources){
+        // TODO options设置
         BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inScaled = false;
         try {
 
-            HERO = BitmapFactory.decodeResource(resources, R.drawable.hero);
-            MOB = BitmapFactory.decodeResource(resources, R.drawable.mob);
-            ELITE = BitmapFactory.decodeResource(resources, R.drawable.elite);
-            BOSS = BitmapFactory.decodeResource(resources, R.drawable.boss, options);
+            BACKGROUND_IMAGE_EASY = BitmapFactory.decodeResource(resources, R.drawable.bg, options);
+            BACKGROUND_IMAGE_NORMAL = BitmapFactory.decodeResource(resources, R.drawable.bg2, options);
+            BACKGROUND_IMAGE_HARD = BitmapFactory.decodeResource(resources, R.drawable.bg5, options);
 
-            CLASS_IMAGE_MAP.put("HeroAircraft", HERO);
-            CLASS_IMAGE_MAP.put("Mob", MOB);
-            CLASS_IMAGE_MAP.put("Elite", ELITE);
-            CLASS_IMAGE_MAP.put("Boss", BOSS);
+            HERO_IMAGE = BitmapFactory.decodeResource(resources, R.drawable.hero, options);
+            MOB_ENEMY_IMAGE = BitmapFactory.decodeResource(resources, R.drawable.mob, options);
+            ELITE_ENEMY_IMAGE = BitmapFactory.decodeResource(resources, R.drawable.elite, options);
+            BOSS_ENEMY_IMAGE = BitmapFactory.decodeResource(resources, R.drawable.boss, options);
+
+            HERO_BULLET_IMAGE = BitmapFactory.decodeResource(resources, R.drawable.bullet_hero, options);
+            ENEMY_BULLET_IMAGE = BitmapFactory.decodeResource(resources, R.drawable.bullet_enemy, options);
+
+            PROP_BLOOD_IMAGE = BitmapFactory.decodeResource(resources, R.drawable.prop_blood, options);
+            PROP_FIRE_IMAGE = BitmapFactory.decodeResource(resources, R.drawable.prop_fire, options);
+            PROP_BOMB_IMAGE = BitmapFactory.decodeResource(resources, R.drawable.prop_bomb, options);
+
+            CLASSNAME_IMAGE_MAP.put(HeroAircraft.class.getName(), HERO_IMAGE);
+            CLASSNAME_IMAGE_MAP.put(MobEnemy.class.getName(), MOB_ENEMY_IMAGE);
+            CLASSNAME_IMAGE_MAP.put(EliteEnemy.class.getName(), ELITE_ENEMY_IMAGE);
+            CLASSNAME_IMAGE_MAP.put(BossEnemy.class.getName(), BOSS_ENEMY_IMAGE);
+
+            CLASSNAME_IMAGE_MAP.put(HeroBullet.class.getName(), HERO_BULLET_IMAGE);
+            CLASSNAME_IMAGE_MAP.put(EnemyBullet.class.getName(), ENEMY_BULLET_IMAGE);
+
+            CLASSNAME_IMAGE_MAP.put(ItemBlood.class.getName(), PROP_BLOOD_IMAGE);
+            CLASSNAME_IMAGE_MAP.put(ItemFire.class.getName(), PROP_FIRE_IMAGE);
+            CLASSNAME_IMAGE_MAP.put(ItemBomb.class.getName(), PROP_BOMB_IMAGE);
+
         }
         catch(Exception e){
             e.printStackTrace();
@@ -38,7 +79,7 @@ public class ImageManager {
     }
 
     public static Bitmap get(String className){
-        return CLASS_IMAGE_MAP.get(className);
+        return CLASSNAME_IMAGE_MAP.get(className);
     }
 
     public static Bitmap get(Object obj){
