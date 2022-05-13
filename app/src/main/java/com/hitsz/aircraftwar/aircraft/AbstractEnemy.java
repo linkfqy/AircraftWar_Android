@@ -1,11 +1,11 @@
 package com.hitsz.aircraftwar.aircraft;
 
 import com.hitsz.aircraftwar.application.MainActivity;
-import com.hitsz.aircraftwar.items.AbstractItem;
-import com.hitsz.aircraftwar.itemscreator.ItemBloodCreator;
-import com.hitsz.aircraftwar.itemscreator.ItemBombCreator;
-import com.hitsz.aircraftwar.itemscreator.ItemFireCreator;
-import com.hitsz.aircraftwar.itemscreator.ItemCreator;
+import com.hitsz.aircraftwar.prop.AbstractProp;
+import com.hitsz.aircraftwar.prop.creator.ItemBloodCreator;
+import com.hitsz.aircraftwar.prop.creator.ItemBombCreator;
+import com.hitsz.aircraftwar.prop.creator.ItemFireCreator;
+import com.hitsz.aircraftwar.prop.creator.ItemCreator;
 
 /**
  * @author henry
@@ -20,7 +20,7 @@ public abstract class AbstractEnemy extends AbstractAircraft{
     }
 
     /** 产生道具 */
-    public AbstractItem dropItems(double[] thresh){
+    public AbstractProp dropItems(double[] thresh){
         double i = Math.random();
         if(i<thresh[0]) {
             return null;

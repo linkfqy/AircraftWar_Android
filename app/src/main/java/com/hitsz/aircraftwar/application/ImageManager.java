@@ -11,9 +11,9 @@ import com.hitsz.aircraftwar.aircraft.HeroAircraft;
 import com.hitsz.aircraftwar.aircraft.MobEnemy;
 import com.hitsz.aircraftwar.bullet.EnemyBullet;
 import com.hitsz.aircraftwar.bullet.HeroBullet;
-import com.hitsz.aircraftwar.items.ItemBlood;
-import com.hitsz.aircraftwar.items.ItemBomb;
-import com.hitsz.aircraftwar.items.ItemFire;
+import com.hitsz.aircraftwar.prop.LifeProp;
+import com.hitsz.aircraftwar.prop.BombProp;
+import com.hitsz.aircraftwar.prop.FireProp;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,7 +34,7 @@ public class ImageManager {
     public static Bitmap ELITE_ENEMY_IMAGE;
     public static Bitmap BOSS_ENEMY_IMAGE;
 
-    public static Bitmap PROP_BLOOD_IMAGE;
+    public static Bitmap PROP_LIFE_IMAGE;
     public static Bitmap PROP_BOMB_IMAGE;
     public static Bitmap PROP_FIRE_IMAGE;
 
@@ -55,7 +55,7 @@ public class ImageManager {
             HERO_BULLET_IMAGE = BitmapFactory.decodeResource(resources, R.drawable.bullet_hero, options);
             ENEMY_BULLET_IMAGE = BitmapFactory.decodeResource(resources, R.drawable.bullet_enemy, options);
 
-            PROP_BLOOD_IMAGE = BitmapFactory.decodeResource(resources, R.drawable.prop_blood, options);
+            PROP_LIFE_IMAGE = BitmapFactory.decodeResource(resources, R.drawable.prop_life, options);
             PROP_FIRE_IMAGE = BitmapFactory.decodeResource(resources, R.drawable.prop_fire, options);
             PROP_BOMB_IMAGE = BitmapFactory.decodeResource(resources, R.drawable.prop_bomb, options);
 
@@ -67,9 +67,9 @@ public class ImageManager {
             CLASSNAME_IMAGE_MAP.put(HeroBullet.class.getName(), HERO_BULLET_IMAGE);
             CLASSNAME_IMAGE_MAP.put(EnemyBullet.class.getName(), ENEMY_BULLET_IMAGE);
 
-            CLASSNAME_IMAGE_MAP.put(ItemBlood.class.getName(), PROP_BLOOD_IMAGE);
-            CLASSNAME_IMAGE_MAP.put(ItemFire.class.getName(), PROP_FIRE_IMAGE);
-            CLASSNAME_IMAGE_MAP.put(ItemBomb.class.getName(), PROP_BOMB_IMAGE);
+            CLASSNAME_IMAGE_MAP.put(LifeProp.class.getName(), PROP_LIFE_IMAGE);
+            CLASSNAME_IMAGE_MAP.put(FireProp.class.getName(), PROP_FIRE_IMAGE);
+            CLASSNAME_IMAGE_MAP.put(BombProp.class.getName(), PROP_BOMB_IMAGE);
 
         }
         catch(Exception e){
