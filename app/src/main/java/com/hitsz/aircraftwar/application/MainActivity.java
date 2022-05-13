@@ -1,6 +1,7 @@
 package com.hitsz.aircraftwar.application;
 
 import androidx.appcompat.app.AppCompatActivity;
+import com.hitsz.aircraftwar.R;
 
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -22,5 +23,9 @@ public class MainActivity extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         WINDOW_HEIGHT = dm.heightPixels;
         WINDOW_WIDTH =dm.widthPixels;
+
+        ImageManager.initial(getResources());
+        GameView game=new GameView(this);
+        setContentView(game);
     }
 }
