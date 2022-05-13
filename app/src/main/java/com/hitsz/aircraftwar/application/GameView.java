@@ -60,10 +60,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,Runn
         if (canvas==null) return;
 
         // 循环绘制背景图片
-        canvas.drawBitmap(ImageManager.BACKGROUND_IMAGE_EASY,0,backgroundTop-MainActivity.WINDOW_HEIGHT, paint);
+        canvas.drawBitmap(ImageManager.BACKGROUND_IMAGE_EASY,0,
+                backgroundTop-ImageManager.BACKGROUND_IMAGE_EASY.getHeight(), paint);
         canvas.drawBitmap(ImageManager.BACKGROUND_IMAGE_EASY,0,backgroundTop, paint);
         backgroundTop+=1;
-        if (backgroundTop==MainActivity.WINDOW_HEIGHT) backgroundTop=0;
+        if (backgroundTop==ImageManager.BACKGROUND_IMAGE_EASY.getHeight()) backgroundTop=0;
 
         // 提交canvas内容
         surfaceHolder.unlockCanvasAndPost(canvas);
