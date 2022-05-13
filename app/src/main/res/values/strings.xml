@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">AircraftWar</string>
+    <string name="score">得分：</string>
+    <string name="blood">血量：</string>
 </resources>
