@@ -12,8 +12,12 @@ import java.util.Map;
  * @author henry
  */
 public class NormalGame extends GameView{
-    // 设置游戏参数
-    static{
+
+    public NormalGame(Context context){
+        super(context);
+
+        // 设置游戏参数
+        backgroundImage = ImageManager.BACKGROUND_IMAGE_NORMAL;
         enemyMaxNumber = 7;
         bossAppearThreshold = 500;
         dropItemThresh = new double[]{0.35, 0.65, 0.85};
@@ -35,10 +39,6 @@ public class NormalGame extends GameView{
                 "speedY", 0,
                 "hp",     300
         ));
-    }
-
-    public NormalGame(Context context){
-        super(context);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class NormalGame extends GameView{
                 bossParam.get("speedY"),
                 bossParam.get("hp")
         ));
-        generateBossMusic(playMusic);
+        generateBossMusic();
     }
 
     @Override
@@ -89,17 +89,5 @@ public class NormalGame extends GameView{
                 bossAppearThreshold = Math.max(bossAppearFlag-50, 200);
             }
         }
-    }
-
-    @Override
-    protected void paintBackground() {
-        canvas.drawBitmap(ImageManager.BACKGROUND_IMAGE_NORMAL,
-                0,
-                backgroundTop-ImageManager.BACKGROUND_IMAGE_NORMAL.getHeight(),
-                paint);
-        canvas.drawBitmap(ImageManager.BACKGROUND_IMAGE_NORMAL,
-                0,
-                backgroundTop,
-                paint);
     }
 }

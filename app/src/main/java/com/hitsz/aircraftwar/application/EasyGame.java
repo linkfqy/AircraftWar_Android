@@ -9,8 +9,11 @@ import java.util.Map;
  */
 public class EasyGame extends GameView{
 
-    // 设置游戏参数
-    static{
+    public EasyGame(Context context){
+        super(context);
+
+        // 设置游戏参数
+        backgroundImage=ImageManager.BACKGROUND_IMAGE_EASY;
         enemyMaxNumber = 5;
         dropItemThresh = new double[]{0.3, 0.6, 0.8};
         eliteAppearThreshold = 0.4;
@@ -26,10 +29,6 @@ public class EasyGame extends GameView{
                 "speedY", 8,
                 "hp",     30
         ));
-    }
-
-    public EasyGame(Context context){
-        super(context);
     }
 
     @Override
@@ -48,16 +47,4 @@ public class EasyGame extends GameView{
 
     @Override
     protected void difficultyUpdateCheck() {}
-
-    @Override
-    protected void paintBackground() {
-        canvas.drawBitmap(ImageManager.BACKGROUND_IMAGE_EASY,
-                            0,
-                            backgroundTop-ImageManager.BACKGROUND_IMAGE_EASY.getHeight(),
-                            paint);
-        canvas.drawBitmap(ImageManager.BACKGROUND_IMAGE_EASY,
-                            0,
-                            backgroundTop,
-                            paint);
-    }
 }
