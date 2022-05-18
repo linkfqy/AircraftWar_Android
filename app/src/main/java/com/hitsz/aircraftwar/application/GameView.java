@@ -3,7 +3,9 @@ package com.hitsz.aircraftwar.application;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -16,7 +18,6 @@ import com.hitsz.aircraftwar.aircraft.BossEnemy;
 import com.hitsz.aircraftwar.aircraft.EliteEnemy;
 import com.hitsz.aircraftwar.aircraft.HeroAircraft;
 import com.hitsz.aircraftwar.aircraft.MobEnemy;
-import com.hitsz.aircraftwar.aircraft.creator.BossCreator;
 import com.hitsz.aircraftwar.aircraft.creator.EliteCreator;
 import com.hitsz.aircraftwar.aircraft.creator.EnemyCreator;
 import com.hitsz.aircraftwar.aircraft.creator.MobCreator;
@@ -29,7 +30,6 @@ import com.hitsz.aircraftwar.prop.FireProp;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
@@ -273,7 +273,6 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
     }
 
     private void heroShootAction(){
-        // 英雄射击
         heroBullets.addAll(heroAircraft.shoot());
     }
 
@@ -305,7 +304,6 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
      * 3. 英雄获得补给
      */
     private void crashCheckAction() {
-        // TODO 敌机子弹攻击英雄
         for(BaseBullet bullet: enemyBullets){
             if(bullet.notValid()) {
                 continue;
@@ -351,7 +349,6 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
 //                        }
                     }
                     if (enemyAircraft.notValid()) {
-                        // TODO 获得分数，产生道具补给
                         if(!(enemyAircraft instanceof MobEnemy)){
                             newItem = enemyAircraft.dropItems(dropItemThresh);
                             if(newItem != null){
@@ -447,9 +444,8 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
 
     /**
      * 检查难度是否提升
-     * // TODO abstract
      */
-    protected void difficultyUpdateCheck(){}
+    protected abstract void difficultyUpdateCheck();
 
     private void checkGameOver(){
         if (heroAircraft.getHp() <= 0) {
@@ -501,6 +497,7 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
     public int getScore() {
         return score;
     }
+
     //***********************
     //      Draw 各部分
     //***********************
@@ -533,7 +530,7 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
                 paint);
 
         //绘制得分和生命值
-//        paintScoreAndLife(g);
+        paintScoreAndLife();
 
         // 提交canvas内容
         surfaceHolder.unlockCanvasAndPost(canvas);
@@ -556,14 +553,18 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
         }
     }
 
-//    private void paintScoreAndLife() {
-//        int x = 10;
-//        int y = 25;
-//        g.setColor(new Color(16711680));
-//        g.setFont(new Font("SansSerif", Font.BOLD, 22));
-//        g.drawString("SCORE:" + this.score, x, y);
-//        y = y + 20;
-//        g.drawString("LIFE:" + this.heroAircraft.getHp(), x, y);
-//    }
+    private void paintScoreAndLife() {
+        int x = 30;
+        int y = 75;
+        Paint paint1 = new Paint();
+        Typeface font = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD);
+
+        paint1.setColor(Color.RED);
+        paint1.setTypeface(font);
+        paint1.setTextSize(50);
+
+        canvas.drawText("SCORE:" + this.score, x, y, paint1);
+        canvas.drawText("LIFE:" + this.heroAircraft.getHp(), x, y+60, paint1);
+    }
 
 }
