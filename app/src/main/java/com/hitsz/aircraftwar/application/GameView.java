@@ -41,6 +41,7 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
     protected Canvas canvas;  //绘图的画布
     protected final Paint paint;
     protected int backgroundTop;
+    protected Bitmap backgroundImage;
     protected Boolean playMusic;
 
     private final HeroAircraft heroAircraft;
@@ -76,16 +77,16 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
      * 3. 精英机产生的阈值
      * 4. 子弹发射、产生敌机频率(ms)
      */
-    protected static int bossAppearThreshold;
-    protected static int enemyMaxNumber;
-    protected static double eliteAppearThreshold;
-    protected static double[] dropItemThresh;
-    protected static int enemyCycleDuration;
-    protected static int heroCycleDuration;
-    protected static int difficultyUpdateCycle = 15000;
-    protected static HashMap<String, Integer> mobParam = new HashMap<>();
-    protected static HashMap<String, Integer> eliteParam = new HashMap<>();
-    protected static HashMap<String, Integer> bossParam = new HashMap<>();
+    protected int bossAppearThreshold;
+    protected int enemyMaxNumber;
+    protected double eliteAppearThreshold;
+    protected double[] dropItemThresh;
+    protected int enemyCycleDuration;
+    protected int heroCycleDuration;
+    protected int difficultyUpdateCycle = 15000;
+    protected HashMap<String, Integer> mobParam = new HashMap<>();
+    protected HashMap<String, Integer> eliteParam = new HashMap<>();
+    protected HashMap<String, Integer> bossParam = new HashMap<>();
 
     public GameView(Context context){
         super(context);
@@ -513,9 +514,11 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
         if (canvas==null) return;
 
         // 循环绘制背景图片
-        paintBackground();
+        canvas.drawBitmap(backgroundImage,0,
+                backgroundTop-backgroundImage.getHeight(),paint);
+        canvas.drawBitmap(backgroundImage,0,backgroundTop,paint);
         backgroundTop+=1;
-        if (backgroundTop==ImageManager.BACKGROUND_IMAGE_EASY.getHeight()) backgroundTop=0;
+        if (backgroundTop==backgroundImage.getHeight()) backgroundTop=0;
 
         // 先绘制子弹，后绘制飞机
         // 这样子弹显示在飞机的下层
@@ -535,8 +538,6 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
         // 提交canvas内容
         surfaceHolder.unlockCanvasAndPost(canvas);
     }
-
-    protected abstract void paintBackground();
 
     private void paintImageWithPositionRevised(List<? extends AbstractFlyingObject> objects) {
         if (objects.size() == 0) {

@@ -11,8 +11,12 @@ import java.util.Map;
  * @author henry
  */
 public class HardGame extends GameView{
-    // 设置游戏参数
-    static{
+
+    public HardGame(Context context){
+        super(context);
+
+        // 设置游戏参数
+        backgroundImage=ImageManager.BACKGROUND_IMAGE_HARD;
         enemyMaxNumber = 9;
         bossAppearThreshold = 400;
         dropItemThresh = new double[]{0.4, 0.7, 0.85};
@@ -34,10 +38,6 @@ public class HardGame extends GameView{
                 "speedY", 0,
                 "hp",     400
         ));
-    }
-
-    public HardGame(Context context){
-        super(context);
     }
 
     @Override
@@ -89,17 +89,5 @@ public class HardGame extends GameView{
                 bossAppearThreshold = Math.max(bossAppearFlag-50, 200);
             }
         }
-    }
-
-    @Override
-    protected void paintBackground() {
-        canvas.drawBitmap(ImageManager.BACKGROUND_IMAGE_HARD,
-                0,
-                backgroundTop-ImageManager.BACKGROUND_IMAGE_HARD.getHeight(),
-                paint);
-        canvas.drawBitmap(ImageManager.BACKGROUND_IMAGE_HARD,
-                0,
-                backgroundTop,
-                paint);
     }
 }
