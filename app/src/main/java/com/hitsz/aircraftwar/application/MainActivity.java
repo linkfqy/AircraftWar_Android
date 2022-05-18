@@ -6,8 +6,6 @@ import com.hitsz.aircraftwar.R;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 
-import com.hitsz.aircraftwar.R;
-
 public class MainActivity extends AppCompatActivity {
 
     public static int WINDOW_HEIGHT;
