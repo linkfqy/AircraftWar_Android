@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         WINDOW_WIDTH =dm.widthPixels;
 
         ImageManager.initial(getResources());
-        GameView game=new GameView(this);
+        GameView game=new EasyGame(this);
         setContentView(game);
     }
 }

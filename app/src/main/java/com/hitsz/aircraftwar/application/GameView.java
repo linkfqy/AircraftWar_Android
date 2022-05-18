@@ -35,12 +35,12 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
-public class GameView extends SurfaceView implements SurfaceHolder.Callback,Runnable{
+public abstract class GameView extends SurfaceView implements SurfaceHolder.Callback,Runnable{
     private int screenWidth,screenHeight;
     private final SurfaceHolder surfaceHolder;
-    private Canvas canvas;  //绘图的画布
-    private final Paint paint;
-    private int backgroundTop;
+    protected Canvas canvas;  //绘图的画布
+    protected final Paint paint;
+    protected int backgroundTop;
     protected Boolean playMusic;
 
     private final HeroAircraft heroAircraft;
@@ -86,30 +86,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,Runn
     protected static HashMap<String, Integer> mobParam = new HashMap<>();
     protected static HashMap<String, Integer> eliteParam = new HashMap<>();
     protected static HashMap<String, Integer> bossParam = new HashMap<>();
-
-    static{
-        enemyMaxNumber = 9;
-        bossAppearThreshold = 400;
-        dropItemThresh = new double[]{0.4, 0.7, 0.85};
-        eliteAppearThreshold = 0.5;
-        enemyCycleDuration = 400;
-        heroCycleDuration = 250;
-        mobParam.putAll(Map.of(
-                "speedX", 0,
-                "speedY", 8,
-                "hp",     40
-        ));
-        eliteParam.putAll(Map.of(
-                "speedX", 2,
-                "speedY", 8,
-                "hp",     40
-        ));
-        bossParam.putAll(Map.of(
-                "speedX", 2,
-                "speedY", 0,
-                "hp",     400
-        ));
-    }
 
     public GameView(Context context){
 
@@ -214,35 +190,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,Runn
     //      产生敌机各部分
     //***********************
 
-    // TODO abstract
-    protected void generateEnemy() {
-        double i = Math.random();
-        if(bossAppearFlag >= bossAppearThreshold){
-            generateBoss();
-        }
-        else if(i<eliteAppearThreshold){
-            generateMob();
-        }
-        else{
-            generateElite();
-        }
-    }
+    protected abstract void generateEnemy();
 
-    // TODO abstract
-    protected void generateBoss() {
-        bossAppearFlag -= bossAppearThreshold;
-        EnemyCreator enemyCreator = new BossCreator();
-        enemyAircrafts.add(enemyCreator.createEnemy(
-                (int) (Math.random() * (MainActivity.WINDOW_WIDTH - ImageManager.BOSS_ENEMY_IMAGE.getWidth())),
-                (int) (Math.random() * MainActivity.WINDOW_HEIGHT * 0.2),
-                bossParam.get("speedX"),
-                bossParam.get("speedY"),
-                bossParam.get("hp")
-        ));
-        bossParam.replace("hp", bossParam.get("hp")+100);
-        System.out.println("下次boss敌机血量加100");
-        generateBossMusic(playMusic);
-    }
+    protected abstract void generateBoss();
 
     protected void generateBossMusic(Boolean playMusic){
 //        if(playMusic){
@@ -566,9 +516,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,Runn
         if (canvas==null) return;
 
         // 循环绘制背景图片
-        canvas.drawBitmap(ImageManager.BACKGROUND_IMAGE_EASY,0,
-                backgroundTop-ImageManager.BACKGROUND_IMAGE_EASY.getHeight(), paint);
-        canvas.drawBitmap(ImageManager.BACKGROUND_IMAGE_EASY,0,backgroundTop, paint);
+        paintBackground();
         backgroundTop+=1;
         if (backgroundTop==ImageManager.BACKGROUND_IMAGE_EASY.getHeight()) backgroundTop=0;
 
@@ -591,7 +539,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,Runn
         surfaceHolder.unlockCanvasAndPost(canvas);
     }
 
-//    protected abstract void paintBackground();
+    protected abstract void paintBackground();
 
     private void paintImageWithPositionRevised(List<? extends AbstractFlyingObject> objects) {
         if (objects.size() == 0) {
