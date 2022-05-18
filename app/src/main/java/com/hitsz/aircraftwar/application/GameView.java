@@ -88,9 +88,7 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
     protected static HashMap<String, Integer> bossParam = new HashMap<>();
 
     public GameView(Context context){
-
         super(context);
-
         heroAircraft = HeroAircraft.getHeroAircraft();
         enemyAircrafts = new LinkedList<>();
         heroBullets = new LinkedList<>();
@@ -114,6 +112,9 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
         surfaceHolder.addCallback(this);
         this.setFocusable(true);
         backgroundTop=0;
+
+        //注册触摸监听器
+        this.setOnTouchListener(new HeroController(this,HeroAircraft.getHeroAircraft()));
     }
 
     @Override
@@ -130,7 +131,6 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
 
     @Override
     public void surfaceDestroyed(@NonNull SurfaceHolder holder) {
-
     }
 
     @Override
