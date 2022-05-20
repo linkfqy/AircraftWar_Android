@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">AircraftWar</string>
-    <string name="score">得分：</string>
-    <string name="blood">血量：</string>
+    <string name="title">飞机大战</string>
+    <string name="easyGame">简单模式</string>
+    <string name="normalGame">普通模式</string>
+    <string name="hardGame">困难模式</string>
+    <string name="music">音效</string>
+    <string name="off">关</string>
+    <string name="on">开</string>
 </resources>

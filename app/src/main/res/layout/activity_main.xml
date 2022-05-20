@@ -1,33 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg"
     tools:context=".application.MainActivity">
 
-    <TextView
-        android:layout_width="111dp"
-        android:layout_height="20dp"
-        android:text="@string/score"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.023"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.022" />
 
     <TextView
-        android:layout_width="111dp"
-        android:layout_height="20dp"
-        android:text="@string/blood"
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="46dp"
+        android:layout_marginBottom="52dp"
+        android:gravity="center"
+        android:text="@string/title"
+        android:textSize="50sp"
+        app:layout_constraintBottom_toTopOf="@+id/easy"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/easy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:layout_marginBottom="45dp"
+        android:gravity="center"
+        android:text="@string/easyGame"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/normal"
+        app:layout_constraintStart_toStartOf="@+id/tv_title"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title" />
+
+    <Button
+        android:id="@+id/normal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="46dp"
+        android:gravity="center"
+        android:text="@string/normalGame"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/hard"
+        app:layout_constraintStart_toStartOf="@+id/easy"
+        app:layout_constraintTop_toBottomOf="@+id/easy" />
+
+    <Button
+        android:id="@+id/hard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="53dp"
+        android:gravity="center"
+        android:text="@string/hardGame"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/music"
+        app:layout_constraintStart_toStartOf="@+id/normal"
+        app:layout_constraintTop_toBottomOf="@+id/normal" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/music"
+        android:layout_width="114dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="124dp"
+        android:showText="true"
+        android:text="@string/music"
+        android:textOff="@string/off"
+        android:textOn="@string/on"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.023"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.056" />
+        app:layout_constraintTop_toBottomOf="@+id/hard" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
