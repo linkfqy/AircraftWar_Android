@@ -5,6 +5,7 @@ import androidx.appcompat.widget.SwitchCompat;
 
 import com.hitsz.aircraftwar.R;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.widget.Button;
@@ -16,9 +17,10 @@ public class MainActivity extends AppCompatActivity {
     private Button btnHard;
     private SwitchCompat swMusic;
 
-    private GameView game;
-    private String difficulty;
 
+    // 游戏设定：难度，音效
+    public static String difficulty;
+    public static Boolean playMusic;
     public static int WINDOW_HEIGHT;
     public static int WINDOW_WIDTH;
 
@@ -45,18 +47,21 @@ public class MainActivity extends AppCompatActivity {
         // 进入游戏界面
         btnEasy.setOnClickListener(v -> {
             difficulty = "EASY";
-            game = new EasyGame(this);
-            setContentView(game);
+            startGameActivity();
         });
         btnNormal.setOnClickListener(v -> {
             difficulty = "NORMAL";
-            game = new NormalGame(this);
-            setContentView(game);
+            startGameActivity();
         });
         btnHard.setOnClickListener(v -> {
             difficulty = "HARD";
-            game = new HardGame(this);
-            setContentView(game);
+            startGameActivity();
         });
+    }
+
+    private void startGameActivity(){
+        playMusic = swMusic.isChecked();
+        Intent intent = new Intent(this, GameActivity.class);
+        startActivity(intent);
     }
 }
