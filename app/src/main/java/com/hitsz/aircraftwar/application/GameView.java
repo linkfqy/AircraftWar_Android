@@ -98,13 +98,10 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
         itemBombs = new LinkedList<>();
 
         //Scheduled 线程池，用于定时任务调度
-        ThreadFactory gameThread = new ThreadFactory() {
-            @Override
-            public Thread newThread(Runnable r) {
-                Thread t =new Thread(r);
-                t.setName("game thread");
-                return t;
-            }
+        ThreadFactory gameThread = r -> {
+            Thread t =new Thread(r);
+            t.setName("game thread");
+            return t;
         };
         executorService = new ScheduledThreadPoolExecutor(1, gameThread);
 
@@ -196,10 +193,9 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
     protected abstract void generateBoss();
 
     protected void generateBossMusic(){
-//        if(playMusic){
-//            bossMusic = new MusicThread(System.getProperty("user.dir") + "\\src\\videos\\bgm_boss.wav", true);
-//            bossMusic.start();
-//        }
+        if(playMusic){
+            MainActivity.myBinder.playBgmBoss();
+        }
     }
 
     protected void generateElite(){
@@ -336,18 +332,17 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
                     // 敌机损失一定生命值
                     // 一次只能有一架boss机
                     // 控制子弹击中敌机音效
-//                    if(playMusic){
-//                        MusicThread hitMusic = new MusicThread(System.getProperty("user.dir") + "\\src\\videos\\bullet_hit.wav", false);
-//                        hitMusic.start();
-//                    }
+                    if(playMusic){
+                        MainActivity.myBinder.playBulletHit();
+                    }
 
                     bullet.vanish();
                     enemyAircraft.decreaseHp(bullet.getPower());
                     if(enemyAircraft instanceof BossEnemy && enemyAircraft.getHp()==0){
                         BossEnemy.exist = false;
-//                        if(playMusic){
-//                            bossMusic.setStopFlag(true);
-//                        }
+                        if(playMusic){
+                            MainActivity.myBinder.stopBgmBoss();
+                        }
                     }
                     if (enemyAircraft.notValid()) {
                         if(!(enemyAircraft instanceof MobEnemy)){
@@ -405,12 +400,10 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
             if(item.notValid()) {
                 continue;
             } else if(item.crash(heroAircraft) || heroAircraft.crash(item)){
-//                MusicThread supplyMusic;
-//                if(item instanceof BombProp){
-//                    if(playMusic){
-//                        MusicThread bombMusic = new MusicThread(System.getProperty("user.dir") + "\\src\\videos\\bomb_explosion.wav", false);
-//                        bombMusic.start();
-//                    }
+                if(item instanceof BombProp){
+                    if(playMusic){
+                        MainActivity.myBinder.playBombExplosion();
+                    }
                     for(AbstractFlyingObject obj : ((BombProp)item).getSubscriber()){
                         if(obj instanceof MobEnemy){
                             score += 10;
@@ -428,18 +421,16 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
                     }
                     calTimeThread = new CalTimeThread();
                     calTimeThread.start();
-//                    if(playMusic){
-//                        supplyMusic = new MusicThread(System.getProperty("user.dir") + "\\src\\videos\\get_supply.wav", false);
-//                        supplyMusic.start();
-//                    }
+                    if(playMusic){
+                        MainActivity.myBinder.playGetSupply();
+                    }
                 }
-//                else if(playMusic){
-//                    supplyMusic = new MusicThread(System.getProperty("user.dir") + "\\src\\videos\\get_supply.wav", false);
-//                    supplyMusic.start();
-//                }
+                else if(playMusic){
+                    MainActivity.myBinder.playGetSupply();
+                }
                 item.activateItem(heroAircraft);
                 item.vanish();
-//            }
+            }
         }
     }
 
@@ -454,17 +445,10 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
             executorService.shutdown();
             gameOverFlag = true;
 
-            // 释放主线程的锁
-//            synchronized (Main.MAIN_LOCK){
-//                Main.MAIN_LOCK.notify();
-//            }
-
-//            if(playMusic){
-//                bossMusic.setStopFlag(true);
-//                MusicThread gameOverMusic = new MusicThread(System.getProperty("user.dir") + "\\src\\videos\\game_over.wav", false);
-//                gameOverMusic.start();
-//            }
-            System.out.println("Game Over!");
+            if(playMusic){
+                MainActivity.myBinder.stopBgmBoss();
+                MainActivity.myBinder.playGameOver();
+            }
         }
     }
 

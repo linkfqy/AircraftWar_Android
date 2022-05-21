@@ -5,8 +5,12 @@ import androidx.appcompat.widget.SwitchCompat;
 
 import com.hitsz.aircraftwar.R;
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.util.DisplayMetrics;
 import android.widget.Button;
 
@@ -17,10 +21,13 @@ public class MainActivity extends AppCompatActivity {
     private Button btnHard;
     private SwitchCompat swMusic;
 
+    public static MusicService.MyBinder myBinder;
+    private Connect conn;
 
     // 游戏设定：难度，音效
     public static String difficulty;
     public static Boolean playMusic;
+
     public static int WINDOW_HEIGHT;
     public static int WINDOW_WIDTH;
 
@@ -60,8 +67,31 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startGameActivity(){
+        if(swMusic.isChecked()){
+            conn = new Connect();
+            Intent intent = new Intent(this, MusicService.class);
+            bindService(intent, conn, Context.BIND_AUTO_CREATE);
+        }
         playMusic = swMusic.isChecked();
         Intent intent = new Intent(this, GameActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        unbindService(conn);
+    }
+
+    static class Connect implements ServiceConnection {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service){
+            myBinder = (MusicService.MyBinder)service;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+
+        }
     }
 }
