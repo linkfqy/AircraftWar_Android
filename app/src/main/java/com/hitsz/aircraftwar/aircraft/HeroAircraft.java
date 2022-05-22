@@ -21,7 +21,7 @@ public class HeroAircraft extends AbstractAircraft {
     private boolean fireActivated = false;
 
     /** 英雄机的唯一实例 */
-    private static HeroAircraft heroAircraft = new HeroAircraft(
+    private static final HeroAircraft heroAircraft = new HeroAircraft(
             MainActivity.WINDOW_WIDTH / 2,
             MainActivity.WINDOW_HEIGHT - ImageManager.HERO_IMAGE.getHeight(),
             0, 0, 1000);
@@ -65,11 +65,17 @@ public class HeroAircraft extends AbstractAircraft {
         // 英雄机由鼠标控制，不通过forward函数移动
     }
 
-    @Override
+    public void initial() {
+        this.hp=maxHp;
+        this.setLocation(MainActivity.WINDOW_WIDTH / 2.0,
+                MainActivity.WINDOW_HEIGHT - ImageManager.HERO_IMAGE.getHeight());
+    }
+
     /**
      * 通过射击产生子弹
      * @return 射击出的子弹List
      */
+    @Override
     public List<BaseBullet> shoot() {
         AbstractShootStrategy abstractStrategy;
         if(fireActivated){

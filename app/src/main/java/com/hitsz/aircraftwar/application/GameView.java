@@ -91,6 +91,7 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
     public GameView(Context context){
         super(context);
         heroAircraft = HeroAircraft.getHeroAircraft();
+        heroAircraft.initial();
         enemyAircrafts = new LinkedList<>();
         heroBullets = new LinkedList<>();
         enemyBullets = new LinkedList<>();
