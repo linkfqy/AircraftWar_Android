@@ -1,6 +1,8 @@
 package com.hitsz.aircraftwar.application;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -48,8 +50,8 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
     protected final List<AbstractEnemy> enemyAircrafts;
     private final List<BaseBullet> heroBullets;
     private final List<BaseBullet> enemyBullets;
-    private final List<AbstractProp> items;
-    private final List<AbstractProp> itemBombs;
+    private final List<AbstractProp> props;
+    private final List<AbstractProp> bombs;
     private int score = 0;
     protected int bossAppearFlag = 0;
     private boolean gameOverFlag = false;
@@ -80,7 +82,7 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
     protected int bossAppearThreshold;
     protected int enemyMaxNumber;
     protected double eliteAppearThreshold;
-    protected double[] dropItemThresh;
+    protected double[] dropPropThresh;
     protected int enemyCycleDuration;
     protected int heroCycleDuration;
     protected int difficultyUpdateCycle = 15000;
@@ -88,15 +90,20 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
     protected HashMap<String, Integer> eliteParam = new HashMap<>();
     protected HashMap<String, Integer> bossParam = new HashMap<>();
 
+    private final Activity parentActivity;
+
     public GameView(Context context){
         super(context);
+        this.parentActivity =(Activity) context;
+        ActivityManager.getIns().add(parentActivity);
+
         heroAircraft = HeroAircraft.getHeroAircraft();
         heroAircraft.initial();
         enemyAircrafts = new LinkedList<>();
         heroBullets = new LinkedList<>();
         enemyBullets = new LinkedList<>();
-        items = new LinkedList<>();
-        itemBombs = new LinkedList<>();
+        props = new LinkedList<>();
+        bombs = new LinkedList<>();
 
         //Scheduled 线程池，用于定时任务调度
         ThreadFactory gameThread = r -> {
@@ -159,10 +166,10 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
             bulletsMoveAction();
 
             // 飞机移动
-            aircraftsMoveAction();
+            aircraftMoveAction();
 
             // 道具移动
-            itemsMoveAction();
+            propsMoveAction();
 
             // 撞击检测
             crashCheckAction();
@@ -209,7 +216,7 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
                 eliteParam.get("hp")
         );
         enemyAircrafts.add(elite);
-        for(AbstractProp bomb : itemBombs){
+        for(AbstractProp bomb : bombs){
             ((BombProp)bomb).addSubscriber(elite);
         }
     }
@@ -224,7 +231,7 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
                 mobParam.get("hp")
         );
         enemyAircrafts.add(mob);
-        for(AbstractProp bomb : itemBombs){
+        for(AbstractProp bomb : bombs){
             ((BombProp)bomb).addSubscriber(mob);
         }
     }
@@ -263,7 +270,7 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
             if(!(enemyAircraft instanceof MobEnemy)) {
                 bullets = enemyAircraft.shoot();
                 enemyBullets.addAll(bullets);
-                for(AbstractProp bomb : itemBombs){
+                for(AbstractProp bomb : bombs){
                     ((BombProp)bomb).addAllSubscriber(bullets);
                 }
             }
@@ -283,15 +290,15 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
         }
     }
 
-    private void aircraftsMoveAction() {
+    private void aircraftMoveAction() {
         for (AbstractAircraft enemyAircraft : enemyAircrafts) {
             enemyAircraft.forward();
         }
     }
 
-    private void itemsMoveAction() {
-        for (AbstractProp item : items) {
-            item.forward();
+    private void propsMoveAction() {
+        for (AbstractProp prop : props) {
+            prop.forward();
         }
     }
 
@@ -309,7 +316,7 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
             else if(bullet.crash(heroAircraft)){
                 // 英雄机损失生命值
                 heroAircraft.decreaseHp(bullet.getPower());
-                for(AbstractProp bomb : itemBombs){
+                for(AbstractProp bomb : bombs){
                     ((BombProp)bomb).deleteSubscriber(bullet);
                 }
                 bullet.vanish();
@@ -317,7 +324,7 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
         }
 
         // 英雄子弹攻击敌机
-        AbstractProp newItem = null;
+        AbstractProp newProp = null;
         for (BaseBullet bullet : heroBullets) {
             if (bullet.notValid()) {
                 continue;
@@ -347,16 +354,16 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
                     }
                     if (enemyAircraft.notValid()) {
                         if(!(enemyAircraft instanceof MobEnemy)){
-                            newItem = enemyAircraft.dropItems(dropItemThresh);
-                            if(newItem != null){
-                                items.add(newItem);
+                            newProp = enemyAircraft.dropItems(dropPropThresh);
+                            if(newProp != null){
+                                props.add(newProp);
                             }
-                            if(newItem instanceof BombProp){
-                                itemBombs.add(newItem);
+                            if(newProp instanceof BombProp){
+                                bombs.add(newProp);
                             }
                         }
                         if(!(enemyAircraft instanceof BossEnemy)){
-                            for(AbstractProp bomb : itemBombs){
+                            for(AbstractProp bomb : bombs){
                                 ((BombProp)bomb).deleteSubscriber(enemyAircraft);
                             }
                         }
@@ -383,29 +390,28 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
         }
 
         // 若新增道具为炸弹道具，需要将当前精英机，敌机子弹加入炸弹的订阅者列表
-        if(newItem instanceof BombProp){
+        if(newProp instanceof BombProp){
             for(AbstractEnemy aircraft: enemyAircrafts){
                 if(!aircraft.notValid() && !(aircraft instanceof BossEnemy)){
-                    ((BombProp) newItem).addSubscriber(aircraft);
+                    ((BombProp) newProp).addSubscriber(aircraft);
                 }
             }
             for(BaseBullet bullet1: enemyBullets){
                 if(!bullet1.notValid()){
-                    ((BombProp) newItem).addSubscriber(bullet1);
+                    ((BombProp) newProp).addSubscriber(bullet1);
                 }
             }
         }
 
         // 道具生效+火力道具计时
-        for(AbstractProp item : items){
-            if(item.notValid()) {
-                continue;
-            } else if(item.crash(heroAircraft) || heroAircraft.crash(item)){
-                if(item instanceof BombProp){
+        for(AbstractProp prop : props){
+            if(prop.notValid()) continue;
+            if(prop.crash(heroAircraft) || heroAircraft.crash(prop)){
+                if(prop instanceof BombProp){
                     if(playMusic){
                         MainActivity.myBinder.playBombExplosion();
                     }
-                    for(AbstractFlyingObject obj : ((BombProp)item).getSubscriber()){
+                    for(AbstractFlyingObject obj : ((BombProp)prop).getSubscriber()){
                         if(obj instanceof MobEnemy){
                             score += 10;
                             bossAppearFlag += 10;
@@ -416,7 +422,7 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
                         }
                     }
                 }
-                else if(item instanceof FireProp){
+                else if(prop instanceof FireProp){
                     if(heroAircraft.getFireActivated()){
                         calTimeThread.interrupt();
                     }
@@ -429,8 +435,8 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
                 else if(playMusic){
                     MainActivity.myBinder.playGetSupply();
                 }
-                item.activateItem(heroAircraft);
-                item.vanish();
+                prop.activateItem(heroAircraft);
+                prop.vanish();
             }
         }
     }
@@ -442,7 +448,6 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
 
     private void checkGameOver(){
         if (heroAircraft.getHp() <= 0) {
-
             executorService.shutdown();
             gameOverFlag = true;
 
@@ -450,6 +455,11 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
                 MainActivity.myBinder.stopBgmBoss();
                 MainActivity.myBinder.playGameOver();
             }
+
+            // 返回分数
+            parentActivity.setResult(1,new Intent().putExtra("score",score));
+            parentActivity.finish();
+//            ((MainActivity)ActivityManager.getIns().get(0)).startRankingActivity();
         }
     }
 
@@ -471,8 +481,8 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
         enemyBullets.removeIf(AbstractFlyingObject::notValid);
         heroBullets.removeIf(AbstractFlyingObject::notValid);
         enemyAircrafts.removeIf(AbstractFlyingObject::notValid);
-        items.removeIf(AbstractFlyingObject::notValid);
-        itemBombs.removeIf(AbstractProp::notValid);
+        props.removeIf(AbstractFlyingObject::notValid);
+        bombs.removeIf(AbstractProp::notValid);
     }
 
 
@@ -509,7 +519,7 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
         // 这样子弹显示在飞机的下层
         paintImageWithPositionRevised(enemyBullets);
         paintImageWithPositionRevised(heroBullets);
-        paintImageWithPositionRevised(items);
+        paintImageWithPositionRevised(props);
         paintImageWithPositionRevised(enemyAircrafts);
 
         canvas.drawBitmap(ImageManager.HERO_IMAGE,

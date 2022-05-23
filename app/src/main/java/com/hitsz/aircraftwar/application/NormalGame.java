@@ -20,7 +20,7 @@ public class NormalGame extends GameView{
         backgroundImage = ImageManager.BACKGROUND_IMAGE_NORMAL;
         enemyMaxNumber = 7;
         bossAppearThreshold = 500;
-        dropItemThresh = new double[]{0.35, 0.65, 0.85};
+        dropPropThresh = new double[]{0.35, 0.65, 0.85};
         eliteAppearThreshold = 0.45;
         enemyCycleDuration = 400;
         heroCycleDuration = 250;

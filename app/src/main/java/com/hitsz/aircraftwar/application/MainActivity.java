@@ -1,5 +1,6 @@
 package com.hitsz.aircraftwar.application;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
@@ -12,6 +13,7 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
@@ -25,7 +27,20 @@ public class MainActivity extends AppCompatActivity {
     private Connect conn;
 
     // 游戏设定：难度，音效
-    public static String difficulty;
+    public enum GameMode{
+        /**
+         * 简单、普通、困难三种模式
+         */
+        EASY,NORMAL,HARD;
+        public String getFileName(){
+            switch (this){
+                case EASY:return "EasyGameRecords.dat";
+                case NORMAL:return "NormalGameRecords.dat";
+                default:return "HardGameRecords.dat";
+            }
+        }
+    }
+    public volatile static GameMode gameMode;
     public static Boolean playMusic;
 
     public static int WINDOW_HEIGHT;
@@ -35,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ActivityManager.getIns().add(this);
 
         // 初始化屏幕参数
         DisplayMetrics dm = new DisplayMetrics();
@@ -46,22 +63,22 @@ public class MainActivity extends AppCompatActivity {
         ImageManager.initial(getResources());
 
         // 进入开始界面
-        btnEasy = findViewById(R.id.easy);
-        btnNormal = findViewById(R.id.normal);
-        btnHard = findViewById(R.id.hard);
-        swMusic = findViewById(R.id.music);
+        btnEasy = findViewById(R.id.easy_btn);
+        btnNormal = findViewById(R.id.normal_btn);
+        btnHard = findViewById(R.id.hard_btn);
+        swMusic = findViewById(R.id.music_switch);
 
         // 进入游戏界面
         btnEasy.setOnClickListener(v -> {
-            difficulty = "EASY";
+            gameMode = GameMode.EASY;
             startGameActivity();
         });
         btnNormal.setOnClickListener(v -> {
-            difficulty = "NORMAL";
+            gameMode = GameMode.NORMAL;
             startGameActivity();
         });
         btnHard.setOnClickListener(v -> {
-            difficulty = "HARD";
+            gameMode = GameMode.HARD;
             startGameActivity();
         });
     }
@@ -73,8 +90,17 @@ public class MainActivity extends AppCompatActivity {
             bindService(intent, conn, Context.BIND_AUTO_CREATE);
         }
         playMusic = swMusic.isChecked();
-        Intent intent = new Intent(this, GameActivity.class);
-        startActivity(intent);
+        // 想要得到Game的分数
+        startActivityForResult(new Intent(this, GameActivity.class),0);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        assert data != null;
+        int score=data.getIntExtra("score",0);
+        // 向RankingActivity传入分数
+        startActivity(new Intent(this,RankingActivity.class).putExtra("score",score));
     }
 
     @Override

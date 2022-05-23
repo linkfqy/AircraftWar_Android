@@ -15,7 +15,7 @@ public class EasyGame extends GameView{
         // 设置游戏参数
         backgroundImage=ImageManager.BACKGROUND_IMAGE_EASY;
         enemyMaxNumber = 5;
-        dropItemThresh = new double[]{0.3, 0.6, 0.8};
+        dropPropThresh = new double[]{0.3, 0.6, 0.8};
         eliteAppearThreshold = 0.4;
         enemyCycleDuration = 400;
         heroCycleDuration = 250;

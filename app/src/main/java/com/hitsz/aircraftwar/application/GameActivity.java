@@ -17,14 +17,14 @@ public class GameActivity extends Activity {
         setContentView(R.layout.activity_game);
 
         // 创建游戏实例
-        switch(MainActivity.difficulty){
-            case "EASY":
+        switch(MainActivity.gameMode){
+            case EASY:
                 game = new EasyGame(this);
                 break;
-            case "NORMAL":
+            case NORMAL:
                 game = new NormalGame(this);
                 break;
-            case "HARD":
+            case HARD:
                 game = new HardGame(this);
                 break;
             default:

@@ -19,7 +19,7 @@ public class HardGame extends GameView{
         backgroundImage=ImageManager.BACKGROUND_IMAGE_HARD;
         enemyMaxNumber = 9;
         bossAppearThreshold = 400;
-        dropItemThresh = new double[]{0.4, 0.7, 0.85};
+        dropPropThresh = new double[]{0.4, 0.7, 0.85};
         eliteAppearThreshold = 0.5;
         enemyCycleDuration = 400;
         heroCycleDuration = 250;
