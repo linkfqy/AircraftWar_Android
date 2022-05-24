@@ -141,6 +141,9 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
 
     @Override
     public void run() {
+        if (playMusic){
+            MainActivity.myBinder.playBgm();
+        }
 
         // 定时任务：绘制、对象产生、碰撞判定、击毁及结束判定
         Runnable task = () -> {

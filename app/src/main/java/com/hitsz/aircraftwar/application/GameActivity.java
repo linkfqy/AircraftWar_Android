@@ -10,6 +10,7 @@ import com.hitsz.aircraftwar.R;
 public class GameActivity extends Activity {
 
     private GameView game;
+    boolean musicOn;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,7 +32,16 @@ public class GameActivity extends Activity {
                 break;
         }
 
-        game.setPlayMusic(getIntent().getBooleanExtra("playMusic", false));
+        musicOn=getIntent().getBooleanExtra("playMusic", false);
+        game.setPlayMusic(musicOn);
         setContentView(game);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (musicOn){
+            MainActivity.myBinder.stopBgm();
+        }
     }
 }

@@ -64,7 +64,7 @@ public class MusicService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        playBgm();
+//        playBgm();
         return new MyBinder();
     }
 
@@ -84,6 +84,14 @@ public class MusicService extends Service {
 
         public void playBombExplosion(){
             mSoundPool.play(soundID.get(4), 1, 1, 0, 0, 1);
+        }
+
+        public void playBgm(){
+            MusicService.this.playBgm();
+        }
+
+        public void stopBgm(){
+            MusicService.this.stopBgm();
         }
 
         // 循环播放boss背景音乐
