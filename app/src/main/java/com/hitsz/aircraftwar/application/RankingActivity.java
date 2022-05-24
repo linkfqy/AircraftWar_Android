@@ -3,6 +3,7 @@ package com.hitsz.aircraftwar.application;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import com.hitsz.aircraftwar.R;
+import com.hitsz.aircraftwar.dao.DataGridRow;
 import com.hitsz.aircraftwar.dao.RecordDao;
 import com.hitsz.aircraftwar.dao.RecordDaoImpl;
 import com.lingber.mycontrol.datagridview.DataGridView;
@@ -18,7 +19,7 @@ import java.util.Date;
 public class RankingActivity extends AppCompatActivity {
 
     private RecordDao recordDao;
-    DataGridView mDataGridView;
+    private DataGridView<DataGridRow> mDataGridView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
