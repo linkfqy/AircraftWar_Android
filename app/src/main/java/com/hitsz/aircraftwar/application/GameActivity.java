@@ -31,7 +31,7 @@ public class GameActivity extends Activity {
                 break;
         }
 
-        game.setPlayMusic(MainActivity.playMusic);
+        game.setPlayMusic(getIntent().getBooleanExtra("playMusic", false));
         setContentView(game);
     }
 }

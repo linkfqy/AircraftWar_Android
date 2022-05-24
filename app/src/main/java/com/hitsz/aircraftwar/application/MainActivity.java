@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     public volatile static GameMode gameMode;
-    public static Boolean playMusic;
 
     public static int WINDOW_HEIGHT;
     public static int WINDOW_WIDTH;
@@ -89,9 +88,11 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, MusicService.class);
             bindService(intent, conn, Context.BIND_AUTO_CREATE);
         }
-        playMusic = swMusic.isChecked();
+
+        Intent intent = new Intent(this, GameActivity.class);
+        intent.putExtra("playMusic", swMusic.isChecked());
         // 想要得到Game的分数
-        startActivityForResult(new Intent(this, GameActivity.class),0);
+        startActivityForResult(intent,0);
     }
 
     @Override
