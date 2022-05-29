@@ -19,24 +19,24 @@ public class HardGame extends GameView{
         backgroundImage=ImageManager.BACKGROUND_IMAGE_HARD;
         enemyMaxNumber = 9;
         bossAppearThreshold = 400;
-        dropPropThresh = new double[]{0.4, 0.7, 0.85};
+        dropPropThresh = new double[]{0.5, 0.7, 0.85};
         eliteAppearThreshold = 0.5;
-        enemyCycleDuration = 400;
-        heroCycleDuration = 250;
+        enemyCycleDuration = 300;
+        heroCycleDuration = 200;
         mobParam.putAll(Map.of(
                 "speedX", 0,
-                "speedY", 8,
+                "speedY", 14,
                 "hp",     40
         ));
         eliteParam.putAll(Map.of(
                 "speedX", 2,
-                "speedY", 8,
+                "speedY", 14,
                 "hp",     40
         ));
         bossParam.putAll(Map.of(
                 "speedX", 2,
                 "speedY", 0,
-                "hp",     400
+                "hp",     1000
         ));
     }
 

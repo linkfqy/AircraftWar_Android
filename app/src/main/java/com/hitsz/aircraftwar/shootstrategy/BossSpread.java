@@ -21,7 +21,7 @@ public class BossSpread implements AbstractShootStrategy {
         for(int i = 0; i< shootNum; i++){
             // 子弹发射位置相对飞机位置向前偏移
             // 多个子弹横向分散
-            baseBullet = new EnemyBullet(x + (i*2 - shootNum + 1)*10, y + direction *2, speedX + (i*2 - shootNum + 1), speedY + direction *5, power);
+            baseBullet = new EnemyBullet(x + (i*2 - shootNum + 1)*10, y + direction *2, speedX + (i*2 - shootNum + 1), speedY + direction * 10, power);
             res.add(baseBullet);
         }
         return res;

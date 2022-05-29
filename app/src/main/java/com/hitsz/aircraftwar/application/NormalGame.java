@@ -20,24 +20,24 @@ public class NormalGame extends GameView{
         backgroundImage = ImageManager.BACKGROUND_IMAGE_NORMAL;
         enemyMaxNumber = 7;
         bossAppearThreshold = 500;
-        dropPropThresh = new double[]{0.35, 0.65, 0.85};
+        dropPropThresh = new double[]{0.5, 0.7, 0.85};
         eliteAppearThreshold = 0.45;
-        enemyCycleDuration = 400;
-        heroCycleDuration = 250;
+        enemyCycleDuration = 300;
+        heroCycleDuration = 200;
         mobParam.putAll(Map.of(
                 "speedX", 0,
-                "speedY", 8,
+                "speedY", 12,
                 "hp",     30
         ));
         eliteParam.putAll(Map.of(
                 "speedX", 2,
-                "speedY", 8,
+                "speedY", 12,
                 "hp",     30
         ));
         bossParam.putAll(Map.of(
                 "speedX", 2,
                 "speedY", 0,
-                "hp",     300
+                "hp",     800
         ));
     }
 

@@ -15,18 +15,18 @@ public class EasyGame extends GameView{
         // 设置游戏参数
         backgroundImage=ImageManager.BACKGROUND_IMAGE_EASY;
         enemyMaxNumber = 5;
-        dropPropThresh = new double[]{0.3, 0.6, 0.8};
+        dropPropThresh = new double[]{0.5, 0.7, 0.85};
         eliteAppearThreshold = 0.4;
         enemyCycleDuration = 400;
         heroCycleDuration = 250;
         mobParam.putAll(Map.of(
                 "speedX", 0,
-                "speedY", 8,
+                "speedY", 10,
                 "hp",     30
         ));
         eliteParam.putAll(Map.of(
                 "speedX", 2,
-                "speedY", 8,
+                "speedY", 10,
                 "hp",     30
         ));
     }

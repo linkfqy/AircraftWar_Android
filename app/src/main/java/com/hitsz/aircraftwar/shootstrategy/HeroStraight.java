@@ -21,7 +21,7 @@ public class HeroStraight implements AbstractShootStrategy {
         for(int i=0; i<shootNum; i++){
             // 子弹发射位置相对飞机位置向前偏移
             // 多个子弹横向分散
-            baseBullet = new HeroBullet(x + (i*2 - shootNum + 1)*10, y + direction*2, speedX, speedY + direction*12, power);
+            baseBullet = new HeroBullet(x + (i*2 - shootNum + 1)*10, y + direction*2, speedX, speedY + direction*20, power);
             res.add(baseBullet);
         }
         return res;

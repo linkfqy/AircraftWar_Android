@@ -24,7 +24,7 @@ public class HeroAircraft extends AbstractAircraft {
     private static final HeroAircraft heroAircraft = new HeroAircraft(
             MainActivity.WINDOW_WIDTH / 2,
             MainActivity.WINDOW_HEIGHT - ImageManager.HERO_IMAGE.getHeight(),
-            0, 0, 1000);
+            0, 0, 300);
 
     /**
      * @param locationX 英雄机位置x坐标

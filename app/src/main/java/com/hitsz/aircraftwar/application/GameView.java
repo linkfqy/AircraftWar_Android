@@ -67,7 +67,7 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
      * 2. time耗时
      * 3. 指示距上次敌机产生的时间
      */
-    private final int timeInterval = 40;
+    private final int timeInterval = 30;
     private int enemyCycleTime = 0;
     private int heroCycleTime = 0;
     protected int time = 0;
