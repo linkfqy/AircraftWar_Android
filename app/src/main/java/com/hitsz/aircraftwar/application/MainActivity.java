@@ -1,6 +1,5 @@
 package com.hitsz.aircraftwar.application;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
@@ -13,34 +12,16 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button btnEasy;
-    private Button btnNormal;
-    private Button btnHard;
     private SwitchCompat swMusic;
+    private Button btnOffline;
+    private Button btnOnline;
 
     public static MusicService.MyBinder myBinder;
-    private Connect conn;
-
-    // 游戏设定：难度，音效
-    public enum GameMode{
-        /**
-         * 简单、普通、困难三种模式
-         */
-        EASY,NORMAL,HARD;
-        public String getFileName(){
-            switch (this){
-                case EASY:return "EasyGameRecords.dat";
-                case NORMAL:return "NormalGameRecords.dat";
-                default:return "HardGameRecords.dat";
-            }
-        }
-    }
-    public volatile static GameMode gameMode;
+    private MainActivity.Connect conn;
 
     public static int WINDOW_HEIGHT;
     public static int WINDOW_WIDTH;
@@ -61,47 +42,31 @@ public class MainActivity extends AppCompatActivity {
         // 初始化图片资源
         ImageManager.initial(getResources());
 
-        // 进入开始界面
-        btnEasy = findViewById(R.id.easy_btn);
-        btnNormal = findViewById(R.id.normal_btn);
-        btnHard = findViewById(R.id.hard_btn);
+        // 初始化按钮
         swMusic = findViewById(R.id.music_switch);
+        btnOffline = findViewById(R.id.offline);
+        btnOnline = findViewById(R.id.online);
 
-        // 进入游戏界面
-        btnEasy.setOnClickListener(v -> {
-            gameMode = GameMode.EASY;
-            startGameActivity();
+        // 按钮监听
+        btnOffline.setOnClickListener( view -> {
+            checkMusic();
+            Intent intent = new Intent(this, OfflineActivity.class);
+            startActivity(intent);
         });
-        btnNormal.setOnClickListener(v -> {
-            gameMode = GameMode.NORMAL;
-            startGameActivity();
-        });
-        btnHard.setOnClickListener(v -> {
-            gameMode = GameMode.HARD;
-            startGameActivity();
+
+        btnOnline.setOnClickListener( view -> {
+            checkMusic();
+            Intent intent = new Intent(this, OnlineActivity.class);
+            startActivity(intent);
         });
     }
 
-    private void startGameActivity(){
+    private void checkMusic(){
         if(swMusic.isChecked()){
             conn = new Connect();
             Intent intent = new Intent(this, MusicService.class);
             bindService(intent, conn, Context.BIND_AUTO_CREATE);
         }
-
-        Intent intent = new Intent(this, GameActivity.class);
-        intent.putExtra("playMusic", swMusic.isChecked());
-        // 想要得到Game的分数
-        startActivityForResult(intent,0);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        assert data != null;
-        int score=data.getIntExtra("score",0);
-        // 向RankingActivity传入分数
-        startActivity(new Intent(this,RankingActivity.class).putExtra("score",score));
     }
 
     @Override

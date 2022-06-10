@@ -18,7 +18,7 @@ public class GameActivity extends Activity {
         setContentView(R.layout.activity_game);
 
         // 创建游戏实例
-        switch(MainActivity.gameMode){
+        switch(OfflineActivity.gameMode){
             case EASY:
                 game = new EasyGame(this);
                 break;

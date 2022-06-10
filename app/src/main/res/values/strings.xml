@@ -13,4 +13,6 @@
     <string name="record_time">游戏时间</string>
     <string name="ranking_board">排行榜</string>
     <string name="delete">删除</string>
+    <string name="offline">单机模式</string>
+    <string name="online">联机模式</string>
 </resources>

@@ -11,53 +11,40 @@
         android:id="@+id/title_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="46dp"
-        android:layout_marginBottom="52dp"
+        android:layout_marginTop="107dp"
+        android:layout_marginBottom="67dp"
         android:gravity="center"
         android:text="@string/title"
         android:textSize="50sp"
-        app:layout_constraintBottom_toTopOf="@+id/easy_btn"
+        app:layout_constraintBottom_toTopOf="@+id/offline"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/easy_btn"
+        android:id="@+id/offline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="18dp"
-        android:layout_marginBottom="45dp"
+        android:layout_marginBottom="59dp"
         android:gravity="center"
-        android:text="@string/easyGame"
+        android:text="@string/offline"
         android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/normal_btn"
+        app:layout_constraintBottom_toTopOf="@+id/online"
         app:layout_constraintStart_toStartOf="@+id/title_tv"
         app:layout_constraintTop_toBottomOf="@+id/title_tv" />
 
     <Button
-        android:id="@+id/normal_btn"
+        android:id="@+id/online"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="46dp"
+        android:layout_marginBottom="82dp"
         android:gravity="center"
-        android:text="@string/normalGame"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/hard_btn"
-        app:layout_constraintStart_toStartOf="@+id/easy_btn"
-        app:layout_constraintTop_toBottomOf="@+id/easy_btn" />
-
-    <Button
-        android:id="@+id/hard_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="53dp"
-        android:gravity="center"
-        android:text="@string/hardGame"
+        android:text="@string/online"
         android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/music_switch"
-        app:layout_constraintStart_toStartOf="@+id/normal_btn"
-        app:layout_constraintTop_toBottomOf="@+id/normal_btn" />
+        app:layout_constraintStart_toStartOf="@+id/offline"
+        app:layout_constraintTop_toBottomOf="@+id/offline" />
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/music_switch"
@@ -72,7 +59,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/hard_btn" />
+        app:layout_constraintTop_toBottomOf="@+id/online" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

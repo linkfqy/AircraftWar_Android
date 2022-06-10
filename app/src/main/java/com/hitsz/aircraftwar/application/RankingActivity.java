@@ -26,7 +26,7 @@ public class RankingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_ranking);
 
         // 读取记录
-        recordDao = RecordDaoImpl.readFromFile(this,MainActivity.gameMode.getFileName());
+        recordDao = RecordDaoImpl.readFromFile(this,OfflineActivity.gameMode.getFileName());
 
         mDataGridView = findViewById(R.id.data_gridview);
         // 设置列数
@@ -69,7 +69,7 @@ public class RankingActivity extends AppCompatActivity {
             if (!name.isEmpty()) {
                 recordDao.add(name,getIntent().getIntExtra("score",0),new Date());
                 recordDao.getSorted();
-                recordDao.writeToFile(this,MainActivity.gameMode.getFileName());
+                recordDao.writeToFile(this,OfflineActivity.gameMode.getFileName());
                 mDataGridView.setDataSource(recordDao.toRowList());
                 mDataGridView.updateAll();
             } else {
@@ -87,7 +87,7 @@ public class RankingActivity extends AppCompatActivity {
                 .setNegativeButton("取消", null);
         builder.setPositiveButton("确定", (dialogInterface, i) -> {
             recordDao.deleteById(recordDao.getByIndex(position).getId());
-            recordDao.writeToFile(this,MainActivity.gameMode.getFileName());
+            recordDao.writeToFile(this,OfflineActivity.gameMode.getFileName());
             mDataGridView.setDataSource(recordDao.toRowList());
             mDataGridView.updateAll();
         });
