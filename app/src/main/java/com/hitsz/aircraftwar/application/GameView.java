@@ -449,7 +449,7 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
      */
     protected abstract void difficultyUpdateCheck();
 
-    private void checkGameOver(){
+    private void checkGameOver() {
         if (heroAircraft.getHp() <= 0) {
             executorService.shutdown();
             gameOverFlag = true;
@@ -459,10 +459,21 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
                 MainActivity.myBinder.playGameOver();
             }
 
-            // 返回分数
-            parentActivity.setResult(1,new Intent().putExtra("score",score));
-            parentActivity.finish();
-//            ((MainActivity)ActivityManager.getIns().get(0)).startRankingActivity();
+            if(MainActivity.isOnline){
+                while(!OnlineActivity.isGameOverFlag()){
+                    repaint();
+                    try {
+                        Thread.sleep(30);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            else{
+                // 返回分数
+                parentActivity.setResult(1,new Intent().putExtra("score",score));
+                parentActivity.finish();
+            }
         }
     }
 
@@ -564,6 +575,9 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
 
         canvas.drawText("SCORE:" + this.score, x, y, paint1);
         canvas.drawText("LIFE:" + this.heroAircraft.getHp(), x, y+60, paint1);
+        if(MainActivity.isOnline){
+            canvas.drawText("OPPONENT_SCORE:" + OnlineActivity.getOpponentScore(), x, y+120, paint1);
+        }
     }
 
 }

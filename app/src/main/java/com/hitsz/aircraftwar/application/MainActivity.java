@@ -16,6 +16,8 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static boolean isOnline = false;
+
     private SwitchCompat swMusic;
     private Button btnOffline;
     private Button btnOnline;
@@ -55,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         btnOnline.setOnClickListener( view -> {
+            isOnline = true;
             checkMusic();
             Intent intent = new Intent(this, OnlineActivity.class);
             startActivity(intent);
