@@ -1,0 +1,58 @@
+@startuml
+class com.hitsz.aircraftwar.aircraft.BossEnemy {
++ {static} boolean exist
++ List<BaseBullet> shoot()
+}
+interface com.hitsz.aircraftwar.aircraft.creator.EnemyCreator {
+~ AbstractEnemy createEnemy(int,int,int,int,int)
+}
+class com.hitsz.aircraftwar.aircraft.EliteEnemy {
++ List<BaseBullet> shoot()
+}
+class com.hitsz.aircraftwar.aircraft.creator.EliteCreator {
+- {static} int direction
++ AbstractEnemy createEnemy(int,int,int,int,int)
+}
+class com.hitsz.aircraftwar.aircraft.HeroAircraft {
+- boolean fireActivated
+- {static} HeroAircraft heroAircraft
++ {static} HeroAircraft getHeroAircraft()
++ void increaseHp(int)
++ void setFireActivated(Boolean)
++ Boolean getFireActivated()
++ void forward()
++ void initial()
++ List<BaseBullet> shoot()
+}
+abstract class com.hitsz.aircraftwar.aircraft.AbstractEnemy {
++ AbstractProp dropItems(double[])
++ void forward()
+}
+class com.hitsz.aircraftwar.aircraft.creator.BossCreator {
++ AbstractEnemy createEnemy(int,int,int,int,int)
+}
+class com.hitsz.aircraftwar.aircraft.creator.MobCreator {
++ AbstractEnemy createEnemy(int,int,int,int,int)
+}
+class com.hitsz.aircraftwar.aircraft.MobEnemy {
++ List<BaseBullet> shoot()
+}
+abstract class com.hitsz.aircraftwar.aircraft.AbstractAircraft {
+# int maxHp
+# int hp
++ void decreaseHp(int)
++ int getHp()
++ {abstract}List<BaseBullet> shoot()
+}
+
+
+com.hitsz.aircraftwar.aircraft.AbstractEnemy <|-- com.hitsz.aircraftwar.aircraft.BossEnemy
+com.hitsz.aircraftwar.aircraft.AbstractEnemy <|-- com.hitsz.aircraftwar.aircraft.EliteEnemy
+com.hitsz.aircraftwar.aircraft.creator.EnemyCreator <|.. com.hitsz.aircraftwar.aircraft.creator.EliteCreator
+com.hitsz.aircraftwar.aircraft.AbstractAircraft <|-- com.hitsz.aircraftwar.aircraft.HeroAircraft
+com.hitsz.aircraftwar.aircraft.AbstractAircraft <|-- com.hitsz.aircraftwar.aircraft.AbstractEnemy
+com.hitsz.aircraftwar.aircraft.creator.EnemyCreator <|.. com.hitsz.aircraftwar.aircraft.creator.BossCreator
+com.hitsz.aircraftwar.aircraft.creator.EnemyCreator <|.. com.hitsz.aircraftwar.aircraft.creator.MobCreator
+com.hitsz.aircraftwar.aircraft.AbstractEnemy <|-- com.hitsz.aircraftwar.aircraft.MobEnemy
+com.hitsz.aircraftwar.basic.AbstractFlyingObject <|-- com.hitsz.aircraftwar.aircraft.AbstractAircraft
+@enduml

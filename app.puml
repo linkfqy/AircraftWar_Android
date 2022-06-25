@@ -1,0 +1,166 @@
+@startuml
+class com.hitsz.aircraftwar.application.EasyGame {
+# void generateEnemy()
+# void generateBoss()
+# void difficultyUpdateCheck()
+}
+abstract class com.hitsz.aircraftwar.application.GameView {
++ void surfaceCreated(SurfaceHolder)
++ void surfaceChanged(SurfaceHolder,int,int,int)
++ void surfaceDestroyed(SurfaceHolder)
++ void run()
+# {abstract}void generateEnemy()
+# {abstract}void generateBoss()
+# void generateBossMusic()
+# void generateElite()
+# void generateMob()
+- boolean timeCountAndNewCycleJudge(int,int)
+- void enemyShootAction()
+- void heroShootAction()
+- void bulletsMoveAction()
+- void aircraftMoveAction()
+- void propsMoveAction()
+- void crashCheckAction()
+# {abstract}void difficultyUpdateCheck()
+- void checkGameOver()
++ void setPlayMusic(Boolean)
+- void postProcessAction()
++ boolean isGameOverFlag()
++ int getScore()
+- void repaint()
+- void draw()
+- void paintImageWithPositionRevised(List<? extends AbstractFlyingObject>)
+- void paintScoreAndLife()
+}
+class com.hitsz.aircraftwar.application.NormalGame {
+# void generateEnemy()
+# void generateBoss()
+# void difficultyUpdateCheck()
+}
+class com.hitsz.aircraftwar.application.OnlineActivity {
+- Socket socket
+- PrintWriter writer
+- BufferedReader reader
+- {static} int opponentScore
+- GameView view
+- {static} boolean gameOverFlag
+# void onCreate(Bundle)
++ {static} int getOpponentScore()
++ void setGameOverFlag(boolean)
++ {static} boolean isGameOverFlag()
+}
+class com.hitsz.aircraftwar.application.OnlineActivity.NetConn {
+- Handler handler
++ void run()
+}
+class com.hitsz.aircraftwar.application.OfflineActivity {
+- Button btnEasy
+- Button btnNormal
+- Button btnHard
++ {static} GameMode gameMode
+# void onCreate(Bundle)
+- void startGameActivity()
+# void onActivityResult(int,int,Intent)
+}
+enum com.hitsz.aircraftwar.application.GameMode {
++  EASY
++  NORMAL
++  HARD
++ String getFileName()
+}
+class com.hitsz.aircraftwar.application.ImageManager {
+- {static} Map<String,Bitmap> CLASSNAME_IMAGE_MAP
++ {static} Bitmap BACKGROUND_IMAGE_EASY
++ {static} Bitmap BACKGROUND_IMAGE_NORMAL
++ {static} Bitmap BACKGROUND_IMAGE_HARD
++ {static} Bitmap HERO_IMAGE
++ {static} Bitmap HERO_BULLET_IMAGE
++ {static} Bitmap ENEMY_BULLET_IMAGE
++ {static} Bitmap MOB_ENEMY_IMAGE
++ {static} Bitmap ELITE_ENEMY_IMAGE
++ {static} Bitmap BOSS_ENEMY_IMAGE
++ {static} Bitmap PROP_LIFE_IMAGE
++ {static} Bitmap PROP_BOMB_IMAGE
++ {static} Bitmap PROP_FIRE_IMAGE
++ {static} void initial(Resources)
++ {static} Bitmap get(String)
++ {static} Bitmap get(Object)
+}
+class com.hitsz.aircraftwar.application.GameActivity {
+- GameView game
+~ boolean musicOn
+# void onCreate(Bundle)
+# void onDestroy()
+}
+class com.hitsz.aircraftwar.application.MusicService {
+- {static} String TAG
+- HashMap<Integer,Integer> soundID
+- SoundPool mSoundPool
+- MediaPlayer player
+- MediaPlayer playerBgmBoss
++ void onCreate()
+- void playBgm()
+- void stopBgm()
++ void onDestroy()
++ IBinder onBind(Intent)
+}
+class com.hitsz.aircraftwar.application.MusicService.MyBinder {
++ void playBulletHit()
++ void playGameOver()
++ void playGetSupply()
++ void playBombExplosion()
++ void playBgm()
++ void stopBgm()
++ void playBgmBoss()
++ void stopBgmBoss()
+}
+class com.hitsz.aircraftwar.application.RankingActivity {
+- RecordDao recordDao
+- DataGridView<DataGridRow> mDataGridView
+# void onCreate(Bundle)
+- void inputName()
++ void delRow(int)
+}
+class com.hitsz.aircraftwar.application.HardGame {
+# void generateEnemy()
+# void generateBoss()
+# void difficultyUpdateCheck()
+}
+class com.hitsz.aircraftwar.application.MainActivity {
++ {static} boolean isOnline
+- SwitchCompat swMusic
+- Button btnOffline
+- Button btnOnline
++ {static} MusicService.MyBinder myBinder
+- MainActivity.Connect conn
++ {static} int WINDOW_HEIGHT
++ {static} int WINDOW_WIDTH
+# void onCreate(Bundle)
+- void checkMusic()
+# void onDestroy()
+}
+class com.hitsz.aircraftwar.application.MainActivity.Connect {
++ void onServiceConnected(ComponentName,IBinder)
++ void onServiceDisconnected(ComponentName)
+}
+
+
+com.hitsz.aircraftwar.application.GameView <|-- com.hitsz.aircraftwar.application.EasyGame
+com.hitsz.aircraftwar.application.Callback <|.. com.hitsz.aircraftwar.application.GameView
+com.hitsz.aircraftwar.application.Runnable <|.. com.hitsz.aircraftwar.application.GameView
+android.view.SurfaceView <|-- com.hitsz.aircraftwar.application.GameView
+com.hitsz.aircraftwar.application.GameView <|-- com.hitsz.aircraftwar.application.NormalGame
+androidx.appcompat.app.AppCompatActivity <|-- com.hitsz.aircraftwar.application.OnlineActivity
+com.hitsz.aircraftwar.application.OnlineActivity +.. com.hitsz.aircraftwar.application.OnlineActivity.NetConn
+com.hitsz.aircraftwar.application.Thread <|-- com.hitsz.aircraftwar.application.OnlineActivity.NetConn
+androidx.appcompat.app.AppCompatActivity <|-- com.hitsz.aircraftwar.application.OfflineActivity
+android.app.Activity <|-- com.hitsz.aircraftwar.application.GameActivity
+android.app.Service <|-- com.hitsz.aircraftwar.application.MusicService
+com.hitsz.aircraftwar.application.MusicService +.. com.hitsz.aircraftwar.application.MusicService.MyBinder
+com.hitsz.aircraftwar.application.Binder <|-- com.hitsz.aircraftwar.application.MusicService.MyBinder
+androidx.appcompat.app.AppCompatActivity <|-- com.hitsz.aircraftwar.application.RankingActivity
+com.hitsz.aircraftwar.application.GameView <|-- com.hitsz.aircraftwar.application.HardGame
+androidx.appcompat.app.AppCompatActivity <|-- com.hitsz.aircraftwar.application.MainActivity
+com.hitsz.aircraftwar.application.MainActivity +.. com.hitsz.aircraftwar.application.MainActivity.Connect
+com.hitsz.aircraftwar.application.ServiceConnection <|.. com.hitsz.aircraftwar.application.MainActivity.Connect
+@enduml

@@ -1,0 +1,55 @@
+@startuml
+class com.hitsz.aircraftwar.prop.creator.ItemBombCreator {
++ AbstractProp createItem(int,int,int,int)
+}
+class com.hitsz.aircraftwar.prop.FireProp {
++ void activateItem(HeroAircraft)
+}
+class com.hitsz.aircraftwar.bullet.BaseBullet {
+- int power
++ void forward()
++ int getPower()
+}
+class com.hitsz.aircraftwar.prop.creator.ItemBloodCreator {
++ AbstractProp createItem(int,int,int,int)
+}
+interface com.hitsz.aircraftwar.prop.creator.ItemCreator {
+~ AbstractProp createItem(int,int,int,int)
+}
+class com.hitsz.aircraftwar.bullet.EnemyBullet {
+}
+class com.hitsz.aircraftwar.prop.creator.ItemFireCreator {
++ AbstractProp createItem(int,int,int,int)
+}
+class com.hitsz.aircraftwar.prop.BombProp {
+- ArrayList<AbstractFlyingObject> subscriber
++ void addSubscriber(AbstractFlyingObject)
++ void addAllSubscriber(List<BaseBullet>)
++ void deleteSubscriber(AbstractFlyingObject)
+- void notifySubscriber()
++ ArrayList<AbstractFlyingObject> getSubscriber()
++ void activateItem(HeroAircraft)
+}
+abstract class com.hitsz.aircraftwar.prop.AbstractProp {
++ void forward()
++ {abstract}void activateItem(HeroAircraft)
+}
+class com.hitsz.aircraftwar.bullet.HeroBullet {
+}
+class com.hitsz.aircraftwar.prop.LifeProp {
+- int addHp
++ void activateItem(HeroAircraft)
+}
+
+
+com.hitsz.aircraftwar.prop.creator.ItemCreator <|.. com.hitsz.aircraftwar.prop.creator.ItemBombCreator
+com.hitsz.aircraftwar.prop.AbstractProp <|-- com.hitsz.aircraftwar.prop.FireProp
+com.hitsz.aircraftwar.basic.AbstractFlyingObject <|-- com.hitsz.aircraftwar.bullet.BaseBullet
+com.hitsz.aircraftwar.prop.creator.ItemCreator <|.. com.hitsz.aircraftwar.prop.creator.ItemBloodCreator
+com.hitsz.aircraftwar.bullet.BaseBullet <|-- com.hitsz.aircraftwar.bullet.EnemyBullet
+com.hitsz.aircraftwar.prop.creator.ItemCreator <|.. com.hitsz.aircraftwar.prop.creator.ItemFireCreator
+com.hitsz.aircraftwar.prop.AbstractProp <|-- com.hitsz.aircraftwar.prop.BombProp
+com.hitsz.aircraftwar.basic.AbstractFlyingObject <|-- com.hitsz.aircraftwar.prop.AbstractProp
+com.hitsz.aircraftwar.bullet.BaseBullet <|-- com.hitsz.aircraftwar.bullet.HeroBullet
+com.hitsz.aircraftwar.prop.AbstractProp <|-- com.hitsz.aircraftwar.prop.LifeProp
+@enduml

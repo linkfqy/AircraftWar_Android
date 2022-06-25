@@ -1,0 +1,47 @@
+@startuml
+class com.hitsz.aircraftwar.dao.DataGridRow {
+- int ranking
+- String name
+- int score
+- String time
+}
+class com.hitsz.aircraftwar.dao.Record {
+- int id
+- String name
+- int score
+- Date date
++ int getId()
++ String getName()
++ void setName(String)
++ int getScore()
++ void setScore(int)
++ Date getDate()
++ void setDate(Date)
+}
+class com.hitsz.aircraftwar.dao.RecordDaoImpl {
+- List<Record> records
+- int maxId
+~ {static} SimpleDateFormat sdf
++ void add(String,int,Date)
++ Record getByIndex(int)
++ void deleteById(int)
++ RecordDao getSorted()
++ List<DataGridRow> toRowList()
++ {static} RecordDaoImpl readFromFile(AppCompatActivity,String)
++ void writeToFile(AppCompatActivity,String)
+}
+interface com.hitsz.aircraftwar.dao.RecordDao {
+~ void add(String,int,Date)
+~ Record getByIndex(int)
+~ void deleteById(int)
+~ RecordDao getSorted()
+~ List<DataGridRow> toRowList()
+~ void writeToFile(AppCompatActivity,String)
+}
+
+
+java.io.Serializable <|.. com.hitsz.aircraftwar.dao.Record
+com.hitsz.aircraftwar.dao.RecordDao <|.. com.hitsz.aircraftwar.dao.RecordDaoImpl
+com.hitsz.aircraftwar.dao.Serializable <|.. com.hitsz.aircraftwar.dao.RecordDaoImpl
+java.io.Serializable <|-- com.hitsz.aircraftwar.dao.RecordDao
+@enduml

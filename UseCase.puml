@@ -1,0 +1,25 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+skinparam defaultFontName 微软雅黑
+left to right direction
+:玩家A: as A
+:玩家B: as B
+(单人游戏) as HG
+(多人游戏) as MG
+(游戏主程序) as G
+(排行榜) as RK
+A --> HG
+A --> MG
+B --> MG
+HG <|-- (简单模式)
+HG <|-- (普通模式)
+HG <|-- (困难模式)
+HG ..> G : include
+MG ..> G : include
+HG ..> RK : include
+MG ..> RK : include
+MG ..> (同步分数) : include
+G ..> (难度变化) : include
+G ..> (玩家控制) : include
+G ..> (判定) : include
+@enduml
